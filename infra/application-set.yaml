@@ -6,7 +6,7 @@ metadata:
 spec:
   generators:
     - git:
-        repoURL: https://github.com/bassco/argo-lab.git
+        repoURL: https://github.com/bassco/argocd-lab.git
         revision: HEAD
         directories:
           - path: infra/*
@@ -18,7 +18,7 @@ spec:
       source:
         plugin:
           name: kustomize-build-with-helm
-        repoURL: https://github.com/bassco/argo-lab.git
+        repoURL: https://github.com/bassco/argocd-lab.git
         targetRevision: HEAD
         path: "{{ path }}"
       destination:

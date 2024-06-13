@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   sourceRepos:
-    - "https://github.com/bassco/argo-lab.git"
+    - "https://github.com/bassco/argocd-lab.git"
   destinations:
     - namespace: "argocd"
       server: "*"
