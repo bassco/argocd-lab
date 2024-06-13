@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+clean_output=0
+use_json=0
+case $1 in
+version | neat | rbac* | whoami | krew | node-shell) unset namespace ;;
+plugin | api-* | rbac* | resource-capacity | apply) unset namespace ;;
+config) unset namespace ;;
+get)
+	case $2 in
+	events) set -- "@" --sort-by='{..metadata.creationTimestamp}' ;;
+	nodes) set -- "@" --sort-by=.metadata.creationTimestamp --label-columns group ;;
+	esac
+	;;
+edit)
+	case $2 in
+	ns | namespace) unset namespace ;;
+	esac
+	;;
+
+delete | describe)
+	case $2 in
+	node) unset namespace ;;
+	esac
+	;;
+
+top)
+	case $2 in
+	node) unset namespace ;;
+	esac
+	;;
+eti)
+	shift
+	set -- "exec" "-ti" "$@"
+	;;
+log)
+	shift
+	set -- "logs" "$@"
+	;;
+gety)
+	shift
+	set -- "get" "$@" -oyaml
+	clean_output=1
+	;;
+getj)
+	shift
+	set -- "get" "$@" -ojson
+	clean_output=1
+	;;
+
+esac
+
+if [[ -n "$namespace" ]]; then
+	if [[ "$namespace" == "-A" ]]; then
+		set -- "$@" -A
+	else
+		case $1 in
+		run | exec) set -- --namespace="$namespace" "$@" ;;
+		*) set -- "$@" --namespace="$namespace" ;;
+
+		esac
+	fi
+fi
+
+if [ $clean_output -eq 1 ]; then
+	if command -v kubectl-neat; then
+		echo "kubectl $*|kubectl neat" >/dev/stderr
+		kubectl "$@" | kubectl neat
+		exit
+	fi
+else
+	if [[ "$1" == "resource-capacity" ]]; then
+		if [[ $use_json -ne 1 ]]; then
+			echo "kubectl $*|grep -v '\*'|grep -E 'NODE|ip'" >/dev/stderr
+			kubectl "$@" | grep -v '\*' | grep -E 'NODE|ip'
+			exit
+		fi
+	else
+		if [ "$1" == "top" ]; then
+			echo "kubectl $*|sort -k3 --human-numeric-sort" >/dev/stderr
+			kubectl $* | sort -k3 --human-numeric-sort
+			exit
+		fi
+	fi
+fi
+
+echo "kubectl $*" >/dev/stderr
+kubectl "$@"
