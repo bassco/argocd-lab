@@ -48,3 +48,5 @@ You should be able to visit the following URLs:
 [gitops-with-gitlab-argocd-renovate](https://www.augmentedmind.de/2021/12/26/gitops-with-gitlab-argocd-renovate/)
 [argocd-kustomize-with-helm](https://blog.stonegarden.dev/articles/2023/09/argocd-kustomize-with-helm/)
 [mini-homelab](https://gitlab.com/vehagn/mini-homelab)
+
+test
