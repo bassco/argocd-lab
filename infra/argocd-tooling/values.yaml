@@ -24,7 +24,7 @@ configs:
 #    server.insecure: true
 
 crds:
-  install: true
+  install: false
   # -- Keep CRDs on chart uninstall
   keep: true
 
