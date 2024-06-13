@@ -14,3 +14,14 @@ spec:
   clusterResourceWhitelist:
     - group: "*"
       kind: "*"
+  syncWindows:
+    - kind: allow
+      schedule: "*/10 8-23 * * 1-5"
+      timeZone: "Europe/Berlin"
+      duration: 5m
+      manualSync: true
+      clusters:
+        - in-cluster
+      namespaces:
+        - argocd
+        - argocd-tooling
