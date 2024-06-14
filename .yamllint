@@ -1,0 +1,18 @@
+# For all rules
+ignore-from-file: [.gitignore, .yamlignore]
+
+extends: default
+locale: en_US.UTF-8
+
+rules:
+  braces: disable # because we use kustomize
+  comments: disable # because we use formatters in our editor
+  line-length:
+    max: 1000 # ignore line length - we have no control over this
+    level: warning
+  document-start:
+    ignore:
+      - '**/values.yaml'
+
+indentation:
+  indent-sequences: whatever

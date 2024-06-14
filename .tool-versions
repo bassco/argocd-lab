@@ -15,3 +15,4 @@ golang 1.21.11
 krew 0.4.4
 jq 1.7.1
 pre-commit 3.7.1
+yamllint 1.35.1
